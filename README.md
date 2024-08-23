@@ -1,7 +1,7 @@
 
 # Extension for trace check php code
 
-more things for chech
+more things for check
 
 ## Release Notes
 
