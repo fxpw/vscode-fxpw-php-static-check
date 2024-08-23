@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
-
-export function activate(context: vscode.ExtensionContext) {
+import {phpBladeСheck} from './phpBladeСheck';
+export async function activate(context: vscode.ExtensionContext) {
 	try {
-		console.log("init check");
+		await phpBladeСheck.Init(context);
+		console.log("init vscode-fxpw-php-static-check v1.0.3");
 	} catch (error) {
 		console.error(error);
 	}
