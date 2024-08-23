@@ -1,12 +1,10 @@
 <?php
-//checked 
+//checked
 use App\Models\MemberLike;
 if (empty($item)) {
     return;
 }
 ?>
-
-
 
 
 {{-- <div class="col-6 col-md-4"> --}}

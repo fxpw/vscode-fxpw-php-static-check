@@ -16,6 +16,21 @@
 	"main": "./out/initExtension.js",
 	"icon": "images/icon.jpg",
 	"contributes": {
+		"configuration": {
+			"title": "vscode-fxpw-php-static-check-properties",
+			"properties": {
+				"vscode-fxpw-php-static-check.localization": {
+					"type": "boolean",
+					"default": true,
+					"description": "Check localization"
+				},
+				"vscode-fxpw-php-static-check.bladeTemplates": {
+					"type": "boolean",
+					"default": true,
+					"description": "Check bladeTemplates"
+				}
+			}
+		}
 	},
 	"repository": {
 		"type": "git",

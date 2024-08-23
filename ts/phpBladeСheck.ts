@@ -1,36 +1,41 @@
 import * as vscode from 'vscode';
-import { exec } from 'child_process';
-export class phpBladeСheck {
+import {ExtensionSettings} from "./ExtensionSettings";
+
+export class PhpBladeСheck {
 	private static context: vscode.ExtensionContext | null;
 	private static diagnosticCollection: vscode.DiagnosticCollection;
 
 	static async CheckBlade(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		let text = document.getText();
-		const lines = text.split('\n');
-		lines.forEach((line, index) => {
-			if (line.includes("<=?") || line.includes("<?php") || line.includes("?>")) {
-				const message = `Error in line:${index + 1} - old Blade template`;
-				const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
-				const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
-				diagnostics.push(diagnostic);
-			}
-		});
+		if(ExtensionSettings.CHECK_BLADE_TEMPLATES){
+			let text = document.getText();
+			const lines = text.split('\n');
+			lines.forEach((line, index) => {
+				if (line.includes("<=?") || line.includes("<?php") || line.includes("?>")) {
+					const message = `Error in line:${index + 1} - old Blade template`;
+					const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
+					const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
+					diagnostics.push(diagnostic);
+				}
+			});
+		}
 		return diagnostics;
 	}
 
 	static async CheckLocalization(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		let text = document.getText();
-		const lines = text.split('\n');
-		lines.forEach((line, index) => {
-			if (/[\u0400-\u04FF]/.test(line)) {
-				const message = `Error in line:${index + 1} - localization`;
-				const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
-				const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
-				diagnostics.push(diagnostic);
-			}
-		});
+		if(ExtensionSettings.CHECK_LOCALIZATION){
+			let text = document.getText();
+			const lines = text.split('\n');
+			lines.forEach((line, index) => {
+				if (/[\u0400-\u04FF]/.test(line)) {
+					const message = `Error in line:${index + 1} - localization`;
+					const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
+					const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
+					diagnostics.push(diagnostic);
+				}
+			});
+		}
 		return diagnostics;
 	}
 
@@ -66,6 +71,7 @@ export class phpBladeСheck {
 	static async Init(context: vscode.ExtensionContext): Promise<boolean> {
 		try {
 			this.context = context;
+			await ExtensionSettings.Init(context);
 			await this.InitWatchPHPBlade();
 			return true;
 		} catch (error) {
