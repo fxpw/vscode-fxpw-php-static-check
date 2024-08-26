@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {PhpBladeСheck} from './PhpBladeСheck';
+import {PhpBladeСheck} from "./bladeСheck";
 export async function activate(context: vscode.ExtensionContext) {
 	try {
 		await PhpBladeСheck.Init(context);
