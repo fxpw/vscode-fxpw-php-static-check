@@ -56,10 +56,12 @@ export class PhpBladeСheck {
 
 	static async InitWatchPHPBlade(): Promise<boolean> {
 		if (this.context) {
-			this.diagnosticCollection = vscode.languages.createDiagnosticCollection('php-blade');
+			debug("ts/bladeСheck.ts:59");
+			this.diagnosticCollection = vscode.languages.createDiagnosticCollection('fxpw-php-blade');
 			this.context.subscriptions.push(
 				vscode.workspace.onDidChangeTextDocument(async (event) => {
 					let document = event.document;
+					debug("ts/bladeСheck.ts:64");
 					if (document.languageId === 'blade') {
 						let allDiagnostics: vscode.Diagnostic[] = [];
 						this.diagnosticCollection.set(document.uri, undefined);
@@ -87,6 +89,7 @@ export class PhpBladeСheck {
 			this.context = context;
 			await ExtensionSettings.Init(context);
 			await this.InitWatchPHPBlade();
+			debug("ts/bladeСheck.ts:91");
 			return true;
 		} catch (error) {
 			console.error(error);
