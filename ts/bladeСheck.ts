@@ -62,6 +62,7 @@ export class PhpBladeСheck {
 				vscode.workspace.onDidChangeTextDocument(async (event) => {
 					let document = event.document;
 					await debug("ts/bladeСheck.ts:64");
+					await debug(document.languageId);
 					if (document.languageId === 'blade') {
 						let allDiagnostics: vscode.Diagnostic[] = [];
 						this.diagnosticCollection.set(document.uri, undefined);
