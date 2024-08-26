@@ -15,14 +15,14 @@ export class PhpBladeСheck {
 
 	static async CheckBlade(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		debug("ts/bladeСheck.ts:10");
+		await debug("ts/bladeСheck.ts:10");
 		if(ExtensionSettings.CHECK_BLADE_TEMPLATES){
-			debug("ts/bladeСheck.ts:12");
+			await debug("ts/bladeСheck.ts:12");
 			let text = document.getText();
 			const lines = text.split('\n');
-			lines.forEach((line, index) => {
+			lines.forEach(async (line, index) => {
 				if (line.includes("<=?") || line.includes("<?php") || line.includes("?>")) {
-					debug("ts/bladeСheck.ts:17");
+					await debug("ts/bladeСheck.ts:17");
 					const message = `Error in line:${index + 1} - old Blade template`;
 					const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
 					const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
@@ -35,14 +35,14 @@ export class PhpBladeСheck {
 
 	static async CheckLocalization(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		debug("ts/bladeСheck.ts:38");
+		await  debug("ts/bladeСheck.ts:38");
 		if(ExtensionSettings.CHECK_LOCALIZATION){
-			debug("ts/bladeСheck.ts:40");
+			await  debug("ts/bladeСheck.ts:40");
 			let text = document.getText();
 			const lines = text.split('\n');
-			lines.forEach((line, index) => {
+			lines.forEach(async (line, index) => {
 				if (/[\u0400-\u04FF]/.test(line)) {
-					debug("ts/bladeСheck.ts:45");
+					await  debug("ts/bladeСheck.ts:45");
 					const message = `Error in line:${index + 1} - localization`;
 					const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
 					const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
@@ -56,12 +56,12 @@ export class PhpBladeСheck {
 
 	static async InitWatchPHPBlade(): Promise<boolean> {
 		if (this.context) {
-			debug("ts/bladeСheck.ts:59");
+			await debug("ts/bladeСheck.ts:59");
 			this.diagnosticCollection = vscode.languages.createDiagnosticCollection('fxpw-php-blade');
 			this.context.subscriptions.push(
 				vscode.workspace.onDidChangeTextDocument(async (event) => {
 					let document = event.document;
-					debug("ts/bladeСheck.ts:64");
+					await debug("ts/bladeСheck.ts:64");
 					if (document.languageId === 'blade') {
 						let allDiagnostics: vscode.Diagnostic[] = [];
 						this.diagnosticCollection.set(document.uri, undefined);
@@ -89,7 +89,7 @@ export class PhpBladeСheck {
 			this.context = context;
 			await ExtensionSettings.Init(context);
 			await this.InitWatchPHPBlade();
-			debug("ts/bladeСheck.ts:91");
+			await debug("ts/bladeСheck.ts:91");
 			return true;
 		} catch (error) {
 			console.error(error);
