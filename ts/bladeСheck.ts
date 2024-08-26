@@ -15,14 +15,11 @@ export class PhpBladeСheck {
 
 	static async CheckBlade(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		await debug("ts/bladeСheck.ts:10");
 		if(ExtensionSettings.CHECK_BLADE_TEMPLATES){
-			await debug("ts/bladeСheck.ts:12");
 			let text = document.getText();
 			const lines = text.split('\n');
 			lines.forEach(async (line, index) => {
 				if (line.includes("<=?") || line.includes("<?php") || line.includes("?>")) {
-					await debug("ts/bladeСheck.ts:17");
 					const message = `Error in line:${index + 1} - old Blade template`;
 					const range = new vscode.Range(new vscode.Position(index, 0), new vscode.Position(index, line.length));
 					const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
@@ -35,9 +32,7 @@ export class PhpBladeСheck {
 
 	static async CheckLocalization(document: vscode.TextDocument): Promise<vscode.Diagnostic[]> {
 		let diagnostics: vscode.Diagnostic[] = [];
-		await  debug("ts/bladeСheck.ts:38");
 		if(ExtensionSettings.CHECK_LOCALIZATION){
-			await  debug("ts/bladeСheck.ts:40");
 			let text = document.getText();
 			const lines = text.split('\n');
 			lines.forEach(async (line, index) => {
@@ -56,14 +51,12 @@ export class PhpBladeСheck {
 
 	static async InitWatchPHPBlade(): Promise<boolean> {
 		if (this.context) {
-			await debug("ts/bladeСheck.ts:59");
 			this.diagnosticCollection = vscode.languages.createDiagnosticCollection('fxpw-php-blade');
 			this.context.subscriptions.push(
 				vscode.workspace.onDidChangeTextDocument(async (event) => {
 					let document = event.document;
-					await debug("ts/bladeСheck.ts:64");
 					await debug(document.languageId);
-					if (document.languageId === 'blade') {
+					if (document.uri.path.includes('.blade.php')) {
 						let allDiagnostics: vscode.Diagnostic[] = [];
 						this.diagnosticCollection.set(document.uri, undefined);
 
@@ -90,7 +83,6 @@ export class PhpBladeСheck {
 			this.context = context;
 			await ExtensionSettings.Init(context);
 			await this.InitWatchPHPBlade();
-			await debug("ts/bladeСheck.ts:91");
 			return true;
 		} catch (error) {
 			console.error(error);
