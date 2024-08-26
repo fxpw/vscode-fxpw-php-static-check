@@ -11,6 +11,9 @@ export class ExtensionSettings {
 	static get CHECK_BLADE_TEMPLATES(): boolean {
 		return this.config.get<boolean>('bladeTemplates') ?? false;
 	}
+	static get DEBUG(): boolean {
+		return this.config.get<boolean>('DEBUG') ?? false;
+	}
 
 	static UpdateSettingsHandler(): void {
 		try {

@@ -28,6 +28,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Check bladeTemplates"
+				},
+				"vscode-fxpw-php-static-check.DEBUG": {
+					"type": "boolean",
+					"default": true,
+					"description": "Enable debug"
 				}
 			}
 		}
