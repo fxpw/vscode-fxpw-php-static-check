@@ -3,7 +3,7 @@ import {PhpСheck} from "./bladeСheck";
 export async function activate(context: vscode.ExtensionContext) {
 	try {
 		await PhpСheck.Init(context);
-		console.log("init vscode-fxpw-php-static-check v1.0.11");
+		console.log("init vscode-fxpw-php-static-check v1.0.13");
 	} catch (error) {
 		console.error(error);
 	}
